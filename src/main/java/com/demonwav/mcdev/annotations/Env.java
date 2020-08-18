@@ -13,8 +13,8 @@ package com.demonwav.mcdev.annotations;
 /**
  * An environment, or distribution, of Minecraft.
  *
- * @see net.minecraftforge.api.distmarker.Dist
- * @see net.fabricmc.api.EnvType
+ * This is analogous to {@code net.minecraftforge.api.distmarker.Dist} in Forge and {@code net.fabricmc.api.EnvType}
+ * in Fabric.
  */
 public enum Env {
     /**

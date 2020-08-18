@@ -30,7 +30,7 @@ import java.lang.annotation.Target;
 @Documented
 public @interface CheckEnv {
     /**
-     * The environment in which this element should only be accessed.
+     * @return The environment in which this element should only be accessed.
      */
     Env value();
 }

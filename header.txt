@@ -1,0 +1,7 @@
+Minecraft Dev for IntelliJ Annotations
+
+https://minecraftdev.org
+
+Copyright (c) 2020 minecraft-dev
+
+MIT License
