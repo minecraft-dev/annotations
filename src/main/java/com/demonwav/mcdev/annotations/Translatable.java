@@ -40,4 +40,9 @@ public @interface Translatable {
      * points to a translation, but not necessarily.
      */
     boolean required() default true;
+
+    /**
+     * Whether to fold the entire method call. Defaults to {@code false}.
+     */
+    boolean foldMethod() default false;
 }
