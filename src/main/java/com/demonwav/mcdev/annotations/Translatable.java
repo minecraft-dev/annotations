@@ -45,4 +45,32 @@ public @interface Translatable {
      * Whether to fold the entire method call. Defaults to {@code false}.
      */
     boolean foldMethod() default false;
+
+    /**
+     * The prefix that will be added to this argument.
+     *
+     * <p>Example:
+     * <pre>
+     * {@code
+     * public static Component itemTranslatable(@Translatable(prefix = "item.") String translationKey) {
+     *     return Component.translatable("item." + translationKey);
+     * }
+     * }
+     * </pre>
+     */
+    String prefix() default "";
+
+    /**
+     * The suffix that will be added to this argument.
+     *
+     * <p>Example:
+     * <pre>
+     * {@code
+     * public static Component translatableWithSuffix(@Translatable(prefix = ".suffix") String translationKey) {
+     *     return Component.translatable(translationKey + ".suffix");
+     * }
+     * }
+     * </pre>
+     */
+    String suffix() default "";
 }
