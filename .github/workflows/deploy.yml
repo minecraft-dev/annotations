@@ -22,6 +22,12 @@ jobs:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONATYPE_USERNAME }}
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_PASSWORD }}
+      - name: Get tag name
+        id: get_tag
+        shell: bash
+        run: |
+          tag_name="$(echo $GITHUB_REF | cut -d / -f 3)"
+          echo "tag=$tag_name" >> $GITHUB_OUTPUT
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         env:
