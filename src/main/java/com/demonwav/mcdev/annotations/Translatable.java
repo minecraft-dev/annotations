@@ -38,11 +38,13 @@ public @interface Translatable {
      * Defaults to {@code true}. If this value is {@code false}, MinecraftDev will not create a warning if the
      * translation key doesn't point to a valid translation. This is intended for use when a {@code String} <i>maybe</i>
      * points to a translation, but not necessarily.
+     * @return {@code true} if a translation key must point to a valid translation.
      */
     boolean required() default true;
 
     /**
      * Whether to fold the entire method call. Defaults to {@code false}.
+     * @return {@code true} to enable folding the entire method call.
      */
     boolean foldMethod() default false;
 
@@ -57,6 +59,7 @@ public @interface Translatable {
      * }
      * }
      * </pre>
+     * @return The prefix that will be added to this argument.
      */
     String prefix() default "";
 
@@ -71,6 +74,7 @@ public @interface Translatable {
      * }
      * }
      * </pre>
+     * @return The suffix that will be added to this argument.
      */
     String suffix() default "";
 }

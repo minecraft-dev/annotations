@@ -1,21 +1,27 @@
 plugins {
     `java-library`
-    signing
     `maven-publish`
-    id("net.minecrell.licenser") version "0.4.1"
+    signing
+    id("io.github.gradle-nexus.publish-plugin") version "1.3.0"
+    id("org.cadixdev.licenser") version "0.6.1"
 }
 
 group = "com.demonwav.mcdev"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
     withSourcesJar()
     withJavadocJar()
 }
 
+tasks.withType<JavaCompile>().configureEach {
+    options.release = 8
+}
+
 license {
-    header = file("header.txt")
+    header(file("header.txt"))
 }
 
 val isSnapshot = version.toString().endsWith("-SNAPSHOT")
@@ -54,10 +60,10 @@ publishing {
 
                 developers {
                     developer {
-                        id.set("DemonWav")
+                        id.set("DenWav")
                         name.set("Kyle Wood")
-                        email.set("demonwav@gmail.com")
-                        url.set("https://github.com/DemonWav")
+                        email.set("kyle@denwav.dev")
+                        url.set("https://github.com/DenWav")
                     }
                 }
 
@@ -68,26 +74,32 @@ publishing {
                 }
             }
         }
-
-        repositories {
-            val url = if (isSnapshot) {
-                "https://oss.sonatype.org/content/repositories/snapshots/"
-            } else {
-                "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-            }
-            maven(url) {
-                credentials(PasswordCredentials::class)
-                name = "osshr"
-            }
-        }
     }
 }
 
-signing {
-    useGpgCmd()
-    sign(publishing.publications["mavenJava"])
+nexusPublishing.repositories {
+    sonatype()
 }
 
-tasks.withType<Sign> {
-    onlyIf { !isSnapshot }
+// Don't configure signing unless this is present
+val sonatypeUsername: Provider<String> = providers.gradleProperty("sonatypeUsername")
+val sonatypePassword: Provider<String> = providers.gradleProperty("sonatypePassword")
+
+val gpgSigningKey: Provider<String> = providers.environmentVariable("GPG_SIGNING_KEY")
+val gpgPassphrase: Provider<String> = providers.environmentVariable("GPG_PASSPHRASE")
+
+if (sonatypeUsername.isPresent && sonatypePassword.isPresent) {
+    signing {
+        setRequired {
+            !isSnapshot && gradle.taskGraph.hasTask("publishToSonatype")
+        }
+
+        if (gpgSigningKey.isPresent && gpgPassphrase.isPresent) {
+            useInMemoryPgpKeys(gpgSigningKey.get(), gpgPassphrase.get())
+        } else {
+            useGpgCmd()
+        }
+
+        sign(publishing.publications["mavenJava"])
+    }
 }
