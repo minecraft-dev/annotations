@@ -52,7 +52,7 @@ public @interface Translatable {
      * Whether arbitrary argument types are allowed in the translation argument list, if present. If false, the argument
      * list must only contain instances of {@linkplain String}, {@linkplain Number}, {@linkplain Boolean} and
      * {@code Component}. If true, other argument types are allowed and are converted to strings as if by using
-     * {@linkplain String.valueOf}.
+     * {@linkplain String#valueOf}.
      *
      * <p>If this annotation is used on a class within the {@code net.minecraft} package, and the current Minecraft
      * version is less than 23w40a (a snapshot for 1.20.3), then MinecraftDev behaves as if this value is true.
